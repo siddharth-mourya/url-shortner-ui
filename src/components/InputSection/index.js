@@ -31,6 +31,7 @@ const InputSection = () => {
       });
       setShortenedUrl(response.data.shortenedUrl);
     } catch (error) {
+      console.log(resperror.response);
       setError(error.response.data.error);
     } finally {
       setLoading(false);
