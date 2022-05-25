@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
 import axios from "axios";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ACTION = {
   QR: "qr",
@@ -12,10 +14,17 @@ const InputSection = () => {
   const [action, setAction] = useState(ACTION.QR);
   const [shortenedUrl, setShortenedUrl] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
+  const setToInitial = () => {
+    setError("");
+    setShortenedUrl("");
+  };
   const getShortenedURL = async () => {
     let response = null;
     try {
+      setToInitial();
+      setLoading(true);
       setAction(ACTION.SHORTEN);
       response = await axios.post("https://url-2-qr.herokuapp.com/shorten", {
         actualUrl: urlInput,
@@ -23,6 +32,8 @@ const InputSection = () => {
       setShortenedUrl(response.data.shortenedUrl);
     } catch (error) {
       setError(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,14 +52,12 @@ const InputSection = () => {
           </div>
           <div className="d-flex justify-content-center">
             <button
-              type="button"
               className="btn m-1 ml-0 btn-primary"
               onClick={getShortenedURL}
             >
               Shorten URL
             </button>
             <button
-              role="button"
               className="btn m-1 btn-primary"
               onClick={(e) => setAction(ACTION.QR)}
             >
@@ -68,7 +77,18 @@ const InputSection = () => {
                     {shortenedUrl}
                   </a>
                 ) : (
-                  <span className="text-danger">*{error}</span>
+                  <>
+                    {isLoading ? (
+                      <div className="text-center">
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          className="fa-pulse"
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-danger">{"*" + error}</span>
+                    )}
+                  </>
                 )}
               </span>
             )}
