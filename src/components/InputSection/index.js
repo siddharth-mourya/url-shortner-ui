@@ -17,7 +17,7 @@ const InputSection = () => {
     let response = null;
     try {
       setAction(ACTION.SHORTEN);
-      response = await axios.post("http://localhost:5000/shorten", {
+      response = await axios.post("https://url-2-qr.herokuapp.com/shorten", {
         actualUrl: urlInput,
       });
       setShortenedUrl(response.data.shortenedUrl);
