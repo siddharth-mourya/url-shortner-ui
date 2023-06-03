@@ -52,12 +52,12 @@ const InputSection = () => {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button
-              className="btn m-1 ml-0 btn-primary"
-              onClick={getShortenedURL}
-            >
-              Shorten URL
-            </button>
+//             <button
+//               className="btn m-1 ml-0 btn-primary"
+//               onClick={getShortenedURL}
+//             >
+//               Shorten URL
+//             </button>
             <button
               className="btn m-1 btn-primary"
               onClick={(e) => setAction(ACTION.QR)}
